@@ -14,7 +14,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       imports: [ConfigModule],
       useFactory: async () => ({
         secret: 'best-secret-key-of-the-world',
-        signOptions: { expiresIn: '300s' },
+        signOptions: { expiresIn: '5min' },
       }),
       inject: [ConfigService],
     }),

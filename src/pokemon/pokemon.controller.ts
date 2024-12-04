@@ -1,7 +1,8 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
 @Controller('pokemon')
 export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
@@ -19,6 +20,7 @@ export class PokemonController {
     return this.pokemonService.getPokemonAbilities(name);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('/random')
   async getRandomPokemon() {

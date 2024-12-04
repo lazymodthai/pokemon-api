@@ -1,6 +1,6 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-// import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -10,16 +10,16 @@ export class PokemonService {
 
   constructor(
     private readonly httpService: HttpService,
-    // @Inject(CACHE_MANAGER) private readonly cacheManager: any, // กำหนดเป็น any แทน
+    @Inject(CACHE_MANAGER) private readonly cacheManager: any,
   ) {}
 
   async getPokemonByName(name: string): Promise<any> {
-    // const cacheKey = `pokemon:${name.toLowerCase()}`;
+    const cacheKey = `pokemon:${name.toLowerCase()}`;
 
-    // const cachedPokemon = await this.cacheManager.get(cacheKey);
-    // if (cachedPokemon) {
-    //   return cachedPokemon;
-    // }
+    const cachedPokemon = await this.cacheManager.get(cacheKey);
+    if (cachedPokemon) {
+      return cachedPokemon;
+    }
 
     try {
       const response = await firstValueFrom(
@@ -34,8 +34,7 @@ export class PokemonService {
         abilities: response.data.abilities.map((a) => a.ability.name),
       };
 
-      // บันทึกลง cache
-      // await this.cacheManager.set(cacheKey, pokemonData, { ttl: this.CACHE_TTL });
+      await this.cacheManager.set(cacheKey, pokemonData, { ttl: this.CACHE_TTL });
 
       return pokemonData;
     } catch (error) {

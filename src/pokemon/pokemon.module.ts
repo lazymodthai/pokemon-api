@@ -9,15 +9,13 @@ import { redisStore } from 'cache-manager-ioredis';
 @Module({
   imports: [
     HttpModule,
-    // CacheModule.registerAsync<RedisClientOptions>({
-    //   useFactory: async () => ({
-    //     store: redisStore,
-    //     host: 'localhost',
-    //     port: 6379,
-    //     isGlobal: true,
-    //     ttl: 600,
-    //   }),
-    // }),
+    CacheModule.registerAsync<RedisClientOptions>({
+      useFactory: async () => ({
+        store: redisStore,
+        host: 'localhost',
+        port: 6379,
+      }),
+    }),
   ],
   controllers: [PokemonController],
   providers: [PokemonService],

@@ -5,6 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Users } from './entities/users.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -13,12 +14,12 @@ import { AuthController } from './auth.controller';
       imports: [ConfigModule],
       useFactory: async () => ({
         secret: 'best-secret-key-of-the-world',
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '300s' },
       }),
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })

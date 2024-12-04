@@ -1,34 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
-import { CreatePokemonDto } from './dto/create-pokemon.dto';
-import { UpdatePokemonDto } from './dto/update-pokemon.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('pokemon')
 export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
 
-  @Post()
-  create(@Body() createPokemonDto: CreatePokemonDto) {
-    return this.pokemonService.create(createPokemonDto);
+  @UseGuards(JwtAuthGuard)
+  @Get('/:name')
+  async getPokemon(@Param('name') name: string) {
+    if(name === 'random') return this.pokemonService.getRandomPokemon();
+    return this.pokemonService.getPokemonByName(name);
   }
 
-  @Get()
-  findAll() {
-    return this.pokemonService.findAll();
+  @UseGuards(JwtAuthGuard)
+  @Get('/:name/ability')
+  async getPokemonAbilities(@Param('name') name: string) {
+    return this.pokemonService.getPokemonAbilities(name);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pokemonService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
-    return this.pokemonService.update(+id, updatePokemonDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pokemonService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get('/random')
+  async getRandomPokemon() {
+    return this.pokemonService.getRandomPokemon();
   }
 }

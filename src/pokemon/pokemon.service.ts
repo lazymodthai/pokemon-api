@@ -16,9 +16,11 @@ export class PokemonService {
   async getPokemonByName(name: string): Promise<any> {
     const cacheKey = `pokemon:${name.toLowerCase()}`;
 
+    console.log('Cache:',this.cacheManager.get(cacheKey))
+
     const cachedPokemon = await this.cacheManager.get(cacheKey);
     if (cachedPokemon) {
-      return cachedPokemon;
+      return JSON.parse(cachedPokemon);
     }
 
     try {
@@ -34,18 +36,27 @@ export class PokemonService {
         abilities: response.data.abilities.map((a) => a.ability.name),
       };
 
-      await this.cacheManager.set(cacheKey, pokemonData, {
-        ttl: this.CACHE_TTL,
-      });
+      await this.cacheManager.set(cacheKey, JSON.stringify(pokemonData), { ttl: this.CACHE_TTL });
 
       return pokemonData;
-    } catch {
+    } catch (error) {
       throw new NotFoundException('Pokemon not found');
     }
   }
 
   async getPokemonAbilities(name: string): Promise<string[]> {
+    const cacheKey = `abilities:${name.toLowerCase()}`;
+
+    console.log('Cache:',this.cacheManager.get(cacheKey))
+
+    const cachedAbilities = await this.cacheManager.get(cacheKey);
+    if (cachedAbilities) {
+      return JSON.parse(cachedAbilities);
+    }
+
     const pokemon = await this.getPokemonByName(name);
+    await this.cacheManager.set(cacheKey, JSON.stringify(pokemon.abilities), { ttl: this.CACHE_TTL });
+    
     return pokemon.abilities;
   }
 

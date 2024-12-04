@@ -1,5 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class RegisterDto {
   @ApiProperty({
@@ -19,10 +27,10 @@ export class RegisterDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(8, {
-    message: 'Password at least 8 Characters'
+    message: 'Password at least 8 Characters',
   })
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
-    message: 'Password too weak'
+    message: 'Password too weak',
   })
   password: string;
 

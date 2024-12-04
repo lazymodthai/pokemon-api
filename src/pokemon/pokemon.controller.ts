@@ -10,7 +10,7 @@ export class PokemonController {
   @UseGuards(JwtAuthGuard)
   @Get('/:name')
   async getPokemon(@Param('name') name: string) {
-    if(name === 'random') return this.pokemonService.getRandomPokemon();
+    if (name === 'random') return this.pokemonService.getRandomPokemon();
     return this.pokemonService.getPokemonByName(name);
   }
 

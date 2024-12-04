@@ -34,10 +34,12 @@ export class PokemonService {
         abilities: response.data.abilities.map((a) => a.ability.name),
       };
 
-      await this.cacheManager.set(cacheKey, pokemonData, { ttl: this.CACHE_TTL });
+      await this.cacheManager.set(cacheKey, pokemonData, {
+        ttl: this.CACHE_TTL,
+      });
 
       return pokemonData;
-    } catch (error) {
+    } catch {
       throw new NotFoundException('Pokemon not found');
     }
   }
@@ -49,13 +51,15 @@ export class PokemonService {
 
   async getRandomPokemon(): Promise<any> {
     const randomId = Math.floor(Math.random() * 898) + 1;
-    const response = await this.httpService.axiosRef.get(`${this.POKEAPI_BASE_URL}/${randomId}`);
-    console.log(response)
+    const response = await this.httpService.axiosRef.get(
+      `${this.POKEAPI_BASE_URL}/${randomId}`,
+    );
+    console.log(response);
     return {
       name: response.data.name,
-      types: response.data.types.map(t => t.type.name),
+      types: response.data.types.map((t) => t.type.name),
       weight: response.data.weight,
-      height: response.data.height
+      height: response.data.height,
     };
   }
 }

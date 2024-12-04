@@ -22,8 +22,8 @@ import { PokemonModule } from './pokemon/pokemon.module';
       }),
       inject: [ConfigService],
     }),
-    AuthModule, PokemonModule
-  ]
+    AuthModule,
+    PokemonModule,
+  ],
 })
-
 export class DatabaseModule {}

@@ -7,12 +7,7 @@ import { DatabaseModule } from './database.module';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    DatabaseModule,
-    AuthModule,
-    PokemonModule,
-  ],
+  imports: [ConfigModule.forRoot(), DatabaseModule, AuthModule, PokemonModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,4 +1,13 @@
-import { Table, Column, Model, DataType, PrimaryKey, Default, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  Default,
+  CreatedAt,
+  UpdatedAt,
+} from 'sequelize-typescript';
 
 @Table({
   tableName: 'users',

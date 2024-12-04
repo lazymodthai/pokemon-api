@@ -20,5 +20,4 @@ import { redisStore } from 'cache-manager-ioredis';
   controllers: [PokemonController],
   providers: [PokemonService],
 })
-
 export class PokemonModule {}

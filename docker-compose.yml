@@ -15,17 +15,17 @@ services:
     ports:
       - "6379:6379"
 
-  api:
-    build: .
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-      - redis
-    environment:
-      - DATABASE_URL=postgresql://postgres:pokemon1234@postgres:5432/pokemon_db
-      - REDIS_HOST=redis
-      - JWT_SECRET="best-secret-key-of-the-world"
+  # api:
+  #   build: .
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   environment:
+  #     - DATABASE_URL=postgresql://postgres:pokemon1234@postgres:5432/pokemon_db
+  #     - REDIS_HOST=redis
+  #     - JWT_SECRET="best-secret-key-of-the-world"
 
 volumes:
   postgres_data:

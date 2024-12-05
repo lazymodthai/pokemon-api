@@ -11,7 +11,7 @@ import { PokemonModule } from './pokemon/pokemon.module';
       imports: [ConfigModule],
       useFactory: () => ({
         dialect: 'postgres',
-        host: 'localhost',
+        host: 'postgres',
         port: 5432,
         username: 'postgres',
         password: 'pokemon1234',
